@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Pokemon Team{% endblock %}
+
+{% block content %}
+    <h1>Your Pokemon Team</h1>
+    
+    {% if team %}
+        <div class="pokemon-team">
+            {% for pokemon in team %}
+                <div class="pokemon-box">
+                    <h3>{{ pokemon.id }}. {{ pokemon.name }}</h3>
+                    <p>Attack: {{ pokemon.attack }}</p>
+                    <p>Defense: {{ pokemon.defense }}</p> 
+                    <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }} Sprite">
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>You don't have any Pokemon in your team yet. <a href="/team_building">Add Pokemon</a></p>
+    {% endif %}
+{% endblock %}

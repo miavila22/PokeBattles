@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>User Profile</h1>
+    
+    <h2>{{ user.username }}</h2>
+    
+    <h3>Pokemon Team</h3>
+    {% for pokemon in user.pokemon_team %}
+        <div>
+            <p>{{ pokemon.name }}</p>
+            <form method="post" action="/remove_pokemon/{{ pokemon.id }}">
+                {{ csrf_token() }}
+                <button type="submit" class="btn btn-danger">Remove</button>
+            </form>
+        </div>
+    {% endfor %}
+{% endblock %}
