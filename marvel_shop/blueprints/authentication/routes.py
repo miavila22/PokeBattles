@@ -5,7 +5,7 @@ from marvel_shop.helpers import get_pokemon_details
 
 #internal imports
 from marvel_shop.models import Pokemon, User, db
-from marvel_shop.forms import RegisterForm, LoginForm
+from marvel_shop.forms import RegisterForm, LoginForm, AddPokemonForm
 
 
 authentication = Blueprint('authentication', __name__, template_folder='authentication_templates')
@@ -77,10 +77,28 @@ def view_team():
     user_team = get_user_team(current_user.user_id)
 
     if user_team is None:
-        return render_template('teams.html', team=[])
+        return render_template('team_building.html', team=[])
     
 
     return render_template('teams.html', team=user_team)
+
+@authentication.route('/teambuilding', methods= ['GET', 'POST']) 
+def team_building():
+    form = AddPokemonForm()
+    user_id = current_user.user_id
+
+    if request.method == 'POST' and form.validate_on_submit():
+        pokemon = form.pokemon_name.data
+        data = get_pokemon_details(pokemon)
+        pokemon = Pokemon(data["name"], data["hp"], data["attack"], data["defense"], user_id, data["sprite"])
+        db.session.add(pokemon)
+        db.session.commit()
+        print(data)
+
+        return render_template('team_building.html', user=current_user, form=form, data=data)
+
+
+    return render_template('team_building.html', user=current_user, form=form)
 
 def get_user_team(user_id):
     user = User.query.get(user_id)
@@ -134,3 +152,13 @@ def get_pokemon_data():
             db.session.commit()
 
     return render_template('profile.html', user=user)
+
+@authentication.route('/shop/delete/<id>')
+def delete(id):
+
+    pokemon = Pokemon.query.get(id)
+
+    db.session.delete(pokemon)
+    db.session.commit()
+
+    return redirect('/teams')

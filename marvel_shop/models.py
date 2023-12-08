@@ -69,7 +69,7 @@ class User(db.Model, UserMixin):
 # the instructions give you the attributes for the class. 
     
 class Pokemon(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String, primary_key=True)
     name = db.Column(db.String, nullable=False)
     hp = db.Column(db.Integer, nullable=False)
     attack = db.Column(db.Integer, nullable=False)
@@ -78,21 +78,22 @@ class Pokemon(db.Model):
     #might have to add the user_id as a Foreign Key but move and BUT COME BACK TO THIS
     user_id = db.Column(db.String, db.ForeignKey(User.user_id), nullable=False)
 
-    def __init__(self, name, hp, attack, defense, user_id, sprite=""):
+    def __init__(self, name, hp, attack, defense, user_id="", sprite=""):
+        self.id = self.set_id()
         
         self.name = name
         self.hp = hp
         self.attack = attack
         self.defense = defense
-        self.sprite = self.set_sprite(sprite, name)
+        self.sprite = sprite
         self.user_id = user_id 
 
     def set_id(self):
         return str(uuid.uuid4())
     
-    def set_sprite(self, sprite, name):
-        if not sprite:
-            pass
+    # def set_sprite(self, sprite, name):
+    #     if not sprite:
+    #         pass
 
 
 
