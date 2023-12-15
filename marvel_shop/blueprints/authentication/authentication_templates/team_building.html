@@ -3,11 +3,30 @@
 {% block title %}Build Your Pokemon Team{% endblock %}
 
 {% block content %}
-  <div class="container mt-4">
-    
-    <h1>Add Pokemon to Your Team</h1>
 
-    <form method="post" style="max-width: 400px; margin: auto;">
+<style>
+   body, html {
+      height: 100%;
+      margin: 0;
+    }
+
+
+  body {
+    background-image: url('https://storage.ko-fi.com/cdn/useruploads/display/407ea033-7613-4b53-bb0a-39de33fedfab_pokemonoverlay.png'); 
+    background-size:contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 80vh;
+    background-attachment: fixed;
+  }
+</style>
+  <div class="container mt-4" style="height: 100%">
+    
+  <h3 style="margin-top: 90px;">
+    <strong>Add Pokemon To Your Team!</strong>
+  </h3>
+
+    <form method="post" style="max-width: 400px; margin: auto; margin-top: 10px;">
       {{ form.hidden_tag() }}
 
       <div class="col-12">
@@ -15,32 +34,26 @@
         {{ form.pokemon_name(class='form-control mt-2', placeholder='Pokemon Name')}}
 
     </div>
-      <div class="col-12">
-        {{ form.submit(class='btn btn-primary') }}
-    </div>
+      <div class="col-12" style="margin-top: 5px;">
+        {{ form.search(class='btn btn-primary') }}
+      </div>
 
-      <!-- {% for field in form.pokemons %}
-        <div class="mb-3">
-          <label for="{{ field.id }}" class="form-label">Choose a Pokemon</label>
-          {{ field(class="form-control", id=field.id) }}
-        </div>
-      {% endfor %} -->
-
-      <!-- <button type="submit" class="btn btn-primary">Add to Team</button> -->
     </form>
 
     {% if error_code %}
       <div class="alert alert-danger mt-3" role="alert">{{ error_code }}</div>
     {% endif %}
     {% if data %}
-    <div class="card" style="width: 18rem;">
+    <div class="col-md-6"  style="width: 20em;">
       <img class="card-img-top" src="{{ data.sprite }}" alt="Card image cap">
       <div class="card-body">
-        <h5 class="card-title">{{ data.name }}</h5>
-        <p class="card-text">{{ data.hp }}</p>
-        <p class="card-text">{{ data.attack }}</p>
-        <p class="card-text">{{ data.defense }}</p>
-        <a href="#" class="btn btn-primary">Add Pokemon</a>
+        <h5 class="card-title">{{ data.name.title() }}</h5>
+        <p class="card-text">Health Points: {{ data.hp }}</p>
+        <p class="card-text">Attack: {{ data.attack }}</p>
+        <p class="card-text">Defense: {{ data.defense }}</p>
+        <p class="card-text">Type: {{ data.types.title() }}</p>
+
+        {{ form.submit(class='btn btn-primary') }}
       </div>
     </div>
     {% endif %}

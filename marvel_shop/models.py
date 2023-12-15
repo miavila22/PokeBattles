@@ -77,8 +77,12 @@ class Pokemon(db.Model):
     sprite = db.Column(db.String, nullable=False)
     #might have to add the user_id as a Foreign Key but move and BUT COME BACK TO THIS
     user_id = db.Column(db.String, db.ForeignKey(User.user_id), nullable=False)
+    types = db.Column(db.String, nullable=False) #added 12/09
+    sprite2 = db.Column(db.String, nullable=False)
 
-    def __init__(self, name, hp, attack, defense, user_id="", sprite=""):
+ 
+
+    def __init__(self, name, hp, attack, defense, user_id="", sprite="", types="", sprite2=""):
         self.id = self.set_id()
         
         self.name = name
@@ -87,13 +91,14 @@ class Pokemon(db.Model):
         self.defense = defense
         self.sprite = sprite
         self.user_id = user_id 
+        self.types = types #12/09
+        self.sprite2 = sprite2
+
+        
 
     def set_id(self):
         return str(uuid.uuid4())
     
-    # def set_sprite(self, sprite, name):
-    #     if not sprite:
-    #         pass
-
+ 
 
 

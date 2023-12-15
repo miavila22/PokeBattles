@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}My Pokémon Team{% endblock %}
+
+{% block content %}
+    <h1 class="mt-5 mb-4">My Pokémon Team</h1>
+
+    {% for pokemon in teams %}
+        <div class="card pokemon-card">
+            <img src="{{ pokemon.sprite }}" class="card-img-top" alt="{{ pokemon.name }} Sprite">
+            <div class="card-body">
+                <h2 class="card-title">{{ pokemon.name }}</h2>
+                <p class="card-text">HP: {{ pokemon.hp }}</p>
+                <p class="card-text">Attack: {{ pokemon.attack }}</p>
+                <p class="card-text">Defense: {{ pokemon.defense }}</p>
+                <p class="card-text">Type: {{ pokemon.types }}</p>
+
+                <a href="/battle" class="btn btn-primary">Send Out</a>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

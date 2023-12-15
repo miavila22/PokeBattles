@@ -3,10 +3,78 @@
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center; 
-    min-height: 700px;
+    min-height: 90.5vh;
     color: white; 
 }
 
 .shop-stats {
     color: white; 
+}
+
+.pokemon-card {
+    /* background: linear-gradient(to bottom, #FD4C5A, #A92023); */
+    color: rgb(255, 255, 255);
+    border: 5px solid #fce306;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(240, 31, 31, 0.1);
+    width: 300px;
+    max-width: 300px; 
+    text-align: center; 
+}
+
+
+.fire {
+    background: radial-gradient( #FD4C5A, #A92023)
+}
+
+.water, .ice {
+    background: radial-gradient( #86A8FC, #3171fc)
+}
+
+.fighting,.rock, .ground {
+    background: radial-gradient( #ED6336, #994025)
+}
+
+.psychic, .poison, .ghost {
+    background: radial-gradient( #906790, #33336B )
+}
+
+.grass, .bug {
+    background: radial-gradient( #27CB4F, #157A3D)
+}
+
+.electric {
+    background: radial-gradient( #f0ed56, #fbff02);
+    color: black;
+}
+
+.dark {
+    background: radial-gradient( #4b4b55, #040706 );
+    color: white;
+}
+
+.metal, .steel {
+    background: radial-gradient( #A2AAAA, #60746D )
+}
+
+.fairy {
+    background: radial-gradient( #EA1369, #971946)
+}
+
+.normal {
+    background: radial-gradient( #ffffff, #ededed);
+    color: black;
+}
+
+.dragon, .flying {
+    background: radial-gradient(#61CAD7, #438B95)
+}
+
+.trainer1 {
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap-reverse;
+
 }

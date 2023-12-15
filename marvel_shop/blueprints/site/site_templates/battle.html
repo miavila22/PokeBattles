@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+  
+<div class="container position: absolute" style="background-image: url('https://storage.ko-fi.com/cdn/useruploads/display/088aab6e-5910-4edd-82c5-9a1bca2b5e13_mdpokemonbattle_notextbox.png'); background-size: cover; background-position: center; background-repeat: no-repeat; background-size: 100% 100%;
+background-repeat: no-repeat;
+background-position: center; 
+min-height: 94vh; max-width: 2000px;">
+    <div class="row flex-direction row">
+      <div class="col-md-6 offset-md-3 battle-container" style="position: relative;">
+
+        <div class="battle-screen">
+          <div class="trainer1" style="text-align: left; margin-left: -400px; margin-top: 20vh;">
+            <h2>Trainer 1</h2>
+            <h3>Team</h3>
+            <ul style="list-style: none;">
+              {% for pokemon in trainer1.team %}
+                <li>{{ pokemon.name.title() }} - HP: {{ pokemon.hp }}</li>
+              {% endfor %}
+            </ul>
+            <p>Alive Pokemon: {{ trainer1.alive_pokemon }}</p>
+            <p>Potions: {{ trainer1.potions }}</p>
+            
+            <img src="{{ trainer1.sprite2 }}" alt="">
+            
+          </div>
+
+           <div class="battle-interface" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+            <button class="btn btn-primary">Attack</button>
+            <button class="btn btn-success">Use Potion</button>
+            <button class="btn btn-warning">Switch Pokemon</button>
+          </div>
+
+          <div class="trainer2" style="text-align: right; margin-right: -400px; margin-top: 8vh;">
+            <h2>Trainer 2</h2>
+            <h3>Team</h3>
+            <ul style="list-style: none;">
+              {% for pokemon in trainer2.team %}
+                <li>{{ pokemon.name.title() }} - HP: {{ pokemon.hp }}</li>
+              {% endfor %}
+            </ul>
+            <p>Alive Pokemon: {{ trainer2.alive_pokemon }}</p>
+            <p>Potions: {{ trainer2.potions }}</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+{% endblock %} 

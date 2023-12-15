@@ -1,33 +1,37 @@
 {% extends 'base.html' %}
 
-{% block title %}Your Pokemon Team{% endblock %}
+{% block title %}>Your Pokemon Team{% endblock %}
 
 {% block content %}
-<div class="container mt-4" style="height: 100vh; width: 100vw; background: url('https://steamuserimages-a.akamaihd.net/ugc/105106022019033429/DDE630B1BF84064F71981D2FBB0DD0AAC8279F4C/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true'); background-size: cover; padding: -6px; ">
-    <h1>Your Pokemon Team</h1>
+<div class="container mt-4" style="height: 91vh; width: 100vw; background: url('https://steamuserimages-a.akamaihd.net/ugc/105106022019033429/DDE630B1BF84064F71981D2FBB0DD0AAC8279F4C/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true'); background-size: cover; padding: -6px; ">
+    <h1 style="color: white; text-align: center;">Your Pokemon Team</h1>
     
     {% if team %}
-        <div class="pokemon-team" style="display: flex; flex-wrap: wrap; justify-content: space-between">
+        <div class="pokemon-team" style="display: flex; flex-wrap: wrap; justify-content: space-evenly">
             {% for pokemon in team %}
             <div class="pokemon-row">
-                <div class="pokemon-box" style="background: linear-gradient(to bottom, #6afca2, #336659); color: rgb(0, 0, 0); border: 5px solid #fce306; border-radius: 15px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(240, 31, 31, 0.1); max-width: 300px; text-align: center; ">
-                    <h3 style="margin-bottom: 10px">{{ pokemon.name }}</h3>
+                
+                    <div class="pokemon-card {{ pokemon.types }}" > 
+                
+                    <h3 style="margin-bottom: 10px">{{ pokemon.name.title() }}</h3>
                     <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }} Sprite" style="max-width: 100%; height: auto; border: 3px solid yellow; border-radius: 10px">
                     
                     <h5 style="border-bottom: 1px solid rgb(0, 0, 0); padding-bottom: 10px;">HP: {{ pokemon.hp }}</h5>
                     <h5 style="border-bottom: 1px solid rgb(0, 0, 0); padding-bottom: 10px;">Attack: {{ pokemon.attack }}</h5>
                     <h5 style="border-bottom: 1px solid rgb(0, 0, 0); padding-bottom: 10px;">Defense: {{ pokemon.defense }}</h5> 
-                    <h6>Pokemon ID: {{ pokemon.id }}. </h6>
+                    <h5 style="border-bottom: 1px solid rgb(0, 0, 0); padding-bottom: 10px;">Type: {{ pokemon.types.title() }}</h5> 
                         <div class="mt-2">
                             <a href="{{ url_for('authentication.delete', id=pokemon.id ) }}" class="card-link btn btn-danger">Delete</a>
                         </div>
-                    
                 </div>
             </div>
             {% endfor %}
-        
+            {% if team|length < 4 %}
+                <a href="{{ url_for('authentication.team_building') }}" class="btn btn-primary mb-3">Add More Pokemon</a>
+            {% endif %}
+            
     {% else %}
-        <p>You don't have any Pokemon in your team yet. <a href="{{ url_for('authentication.team_building') }}">Add Pokemon</a></p>
+    <a href="{{ url_for('authentication.team_building') }}" class="btn btn-primary mb-3;">Add Pokemon</a>
     {% endif %}
      </div>
 </div>

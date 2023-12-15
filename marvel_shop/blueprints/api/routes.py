@@ -22,7 +22,7 @@ def token():
             'message': 'Missing Client Id. Try Again'
         }
     
-# now we need to see the pokemon details and possible add even the uesr stats for W/L
+# now we need to see the pokemon details and possible add even the user stats for W/L
 
 @api.route('/pokemon/<int:pokemon_id>')
 @jwt_required()
@@ -40,6 +40,8 @@ def get_pokemon_details(pokemon_id):
         'attack': pokemon.attack,
         'defense': pokemon.defense,
         'sprite': pokemon.sprite,
+        'types': pokemon.types, #added 12/09
+        'type_gradient': pokemon.gradient_type
     }
 
     return jsonify(pokemon_details)
@@ -47,7 +49,7 @@ def get_pokemon_details(pokemon_id):
 @api.route('/user_stats')
 @jwt_required()
 def get_user_stats():
-    # Retrieve user stats (wins, losses, etc.)
+    # Wins/Loses or can I just implement this if I do a user profile? 
     user_stats = {
         'username': current_user.username,
         'wins': current_user.wins,

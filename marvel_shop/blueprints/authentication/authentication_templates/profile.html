@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container justify-content-center"  style="background-image: url('https://www.nicepng.com/png/detail/230-2302371_blank-pokemon-card-template-pokemon-old-trainer-cards.png'); background-size:contain; background-repeat: no-repeat; background-position: 50% 50%; height: 80vh; ">
+        <div class="row">
+            <div class="col text-center" style="position: relative;">
+                <p class="display-4" ><strong>Welcome, {{ trainer.username }}!</strong></p>
+            </div>
+        </div>
+        
+        </div>
+        <div class="row" style="position: center;">
+            <div class="col text-center" style="margin-top: -260px;" >
+                <p><strong>Wins: <span class="badge badge-success">{{ trainer.wins }}</strong></span></p>
+            </div>
+
+        <div class="row">
+            <div class="col text-center" style="margin-top: -220px;" >
+                <p><strong>Losses: <span class="badge badge-danger">{{ trainer.losses }}</strong></span></p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col text-center" style="margin-top: -175px;">
+                <p class="lead"><strong>Joined on: {{ trainer.date_added.strftime('%Y-%m-%d') }}</strong></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, flash, session
 from werkzeug.security import check_password_hash
 from flask_login import current_user, login_user, logout_user
-from marvel_shop.helpers import get_pokemon_details
+from marvel_shop.helpers import get_pokemon_details, color_types
 
 #internal imports
 from marvel_shop.models import Pokemon, User, db
@@ -80,7 +80,7 @@ def view_team():
         return render_template('team_building.html', team=[])
     
 
-    return render_template('teams.html', team=user_team)
+    return render_template('teams.html', team=user_team, color_types=color_types)
 
 @authentication.route('/teambuilding', methods= ['GET', 'POST']) 
 def team_building():
@@ -88,17 +88,25 @@ def team_building():
     user_id = current_user.user_id
 
     if request.method == 'POST' and form.validate_on_submit():
-        pokemon = form.pokemon_name.data
-        data = get_pokemon_details(pokemon)
-        pokemon = Pokemon(data["name"], data["hp"], data["attack"], data["defense"], user_id, data["sprite"])
-        db.session.add(pokemon)
-        db.session.commit()
-        print(data)
+        if count_user_pokemon(user_id) < 4:
+            pokemon = form.pokemon_name.data
+            data = get_pokemon_details(pokemon)
 
+    
+            pokemon = Pokemon(data["name"], data["hp"], data["attack"], data["defense"], user_id, data["sprite"], data["types"])
+            db.session.add(pokemon)
+            db.session.commit()
+            print(data)
+
+            flash("Successfully added Pokemon to team!", category="success")
+        else:
+            flash("You already have 4 Pokemon on your team! Cannot add more", category="warning")
         return render_template('team_building.html', user=current_user, form=form, data=data)
 
-
     return render_template('team_building.html', user=current_user, form=form)
+
+def count_user_pokemon(user_id):
+    return Pokemon.query.filter_by(user_id = user_id).count()
 
 def get_user_team(user_id):
     user = User.query.get(user_id)
@@ -107,51 +115,33 @@ def get_user_team(user_id):
     return None
 
 
-# @authentication.route('/profile', methods=['GET','POST'])
-# def profile():
-#     trainer = current_user
-#     register_form = RegisterForm()
-#     if request.method == "POST" and register_form.validate_on_submit():
-#         username = register_form.username.data
-#         email = register_form.email.data
-#         password = register_form.password.data
-#         first_name = register_form.first_name.data
-#         last_name = register_form.last_name.data
+@authentication.route('/profile', methods=['GET','POST'])
+def profile():
+    trainer = current_user
+    register_form = RegisterForm()
+    if request.method == "POST" and register_form.validate_on_submit():
+        username = register_form.username.data
+        first_name = register_form.first_name.data
+        last_name = register_form.last_name.data
+        date_added = register_form.date_added.data
+        trainer.username = username
+        trainer.first_name = first_name
+        trainer.last_name = last_name
+        trainer.date_added = date_added
 
-#         flash("Profile was Successfully updated!", category='success')
-#         return render_template(url_for('profile'))#COME BACK TO THIS!!!!!!!!!!!!!!!!!!!!!!!!
-#     else:
-#         flash('Invalid input. Try Again!', category='warning')
-#         return render_template('profile.html', register_form=register_form)
-
-
+        flash("Profile was Successfully updated!", category='success')
+        return redirect('/profile')#COME BACK TO THIS!!!!!!!!!!!!!!!!!!!!!!!!
     
-            
+    elif request.method == 'GET':
+        return render_template('profile.html', register_form=register_form, trainer=trainer)
+        
+    
+    else:
+        flash('Invalid input. Try Again!', category='warning')
+        return render_template('profile.html', register_form=register_form, trainer=trainer)
 
 
 
-@authentication.route('/Pokemon/stats', methods = ['GET', 'POST'])
-def get_pokemon_data():
-
-    user = User.query.get(session['user_id'])
-    if request.method == 'POST':
-        pokemon_name = request.form['pokemon']
-
-        pokemon_details = get_pokemon_details(pokemon_name)
-
-        if pokemon_name:
-            new_pokemon = Pokemon(
-
-                name=pokemon_details['name'],
-                hp=pokemon_details['hp'],
-                attack=pokemon_details['attack'],
-                user=user
-            )
-
-            db.session.add(new_pokemon)
-            db.session.commit()
-
-    return render_template('profile.html', user=user)
 
 @authentication.route('/shop/delete/<id>')
 def delete(id):
@@ -160,5 +150,7 @@ def delete(id):
 
     db.session.delete(pokemon)
     db.session.commit()
+
+    flash(f'Successfully deleted {pokemon.name.title()} from your team')
 
     return redirect('/teams')
