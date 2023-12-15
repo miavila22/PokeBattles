@@ -6,9 +6,11 @@ from flask_jwt_extended import JWTManager
 #internal Imports
 from .blueprints.site.routes import site
 from .blueprints.authentication.routes import authentication
+from .blueprints.api.routes import api
 from config import Config
 from .models import login_manager, db
 from .helpers import JSONEncoder
+
 
 
 app = Flask(__name__)
@@ -30,7 +32,7 @@ login_manager.login_message_category = 'warning'
 
 app.register_blueprint(site)
 app.register_blueprint(authentication)
-# app.register_blueprint(api)
+app.register_blueprint(api)
 
 db.init_app(app)
 migrate = Migrate(app, db)
