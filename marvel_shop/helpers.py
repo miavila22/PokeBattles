@@ -31,7 +31,7 @@ color_types = {
 
 def get_pokemon_details(pokemon_name):
     #have to get URL but reference back to the pokeAPI(W3)
-    url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_name.lower()}"
+    url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}"
 
     response = requests.get(url)
 
